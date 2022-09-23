@@ -434,71 +434,71 @@ escarpado_1 = [[40,100],[34,40],[30,34],[26,30],[20,26],[0,20]]
 # Sector = input('Nombre del sector: ')
 # Abscisa = input('Ingrese abscisado del tramo: ')
 
-# print('Ingrese características de la vía: ')
-a_carril = float(input('Ingrese el ancho de carril (metros): '))
-a_berma = float(input('Ingrese ancho de berma (metros): '))
-p_promedio = float(input('Ingrese pendiente promedio del terreno (%): '))
-print(tipo_terreno(p_promedio))
-l_sector = float(input('Longitud del sector (km): '))
+# # print('Ingrese características de la vía: ')
+# a_carril = float(input('Ingrese el ancho de carril (metros): '))
+# a_berma = float(input('Ingrese ancho de berma (metros): '))
+# p_promedio = float(input('Ingrese pendiente promedio del terreno (%): '))
+# print(tipo_terreno(p_promedio))
+# l_sector = float(input('Longitud del sector (km): '))
 
 
-print('Ingrese características del transito: ')
-d_sentido = int(input('¿Cuál es la distribución por sentido?: '))
-p_no_rebase = int(input('¿Cuál es el procentaje de zonas de no rebase? (%): '))
+# print('Ingrese características del transito: ')
+# d_sentido = int(input('¿Cuál es la distribución por sentido?: '))
+# p_no_rebase = int(input('¿Cuál es el procentaje de zonas de no rebase? (%): '))
 
-#Composición vehicular
-p_autos = int(input('Porcentaje de automóviles: '))
-p_buses = int(input('Porcentaje de buses: '))
-p_camiones = int(input('Porcentaje de camiones: '))
-vol_cap = int(input('Ingrese el volumen horario total ambos sentidos (veh/h) (Q): '))
-p_pesados = p_buses+p_camiones
-c_ideal = 3200
+# #Composición vehicular
+# p_autos = int(input('Porcentaje de automóviles: '))
+# p_buses = int(input('Porcentaje de buses: '))
+# p_camiones = int(input('Porcentaje de camiones: '))
+# vol_cap = int(input('Ingrese el volumen horario total ambos sentidos (veh/h) (Q): '))
+# p_pesados = p_buses+p_camiones
+# c_ideal = 3200
 
-#Capacidad
-Fpe = inter_compuesta_1(p_promedio, tabla_1x, tabla_1, l_sector)
-Fd = inter_compuesta_2(d_sentido,tabla_2x,tabla_2,p_no_rebase)
-Fcb = inter_compuesta3(tabla_3x,tabla_3,a_berma,a_carril)
-Ec = inter_compuesta4(tabla_4x, tabla_4, p_promedio, p_pesados, l_sector)
-Fp = (1/(1+(p_pesados/100)*(Ec-1)))
-Fp = round(Fp,4)
-cap_60 = round(c_ideal*Fpe*Fd*Fcb*Fp,0)
-FHP = inter_tabla5(tabla_5,tabla_5x,tabla_51,tabla_51x,cap_60)
-cap_5 =round(cap_60*FHP,0)
-#Nivel de servico
-v1 = inter_compuesta6(tabla_6x, tabla_6, p_promedio, l_sector)
-Fu = interpolacion(tabla_7x,tabla_7,vol_cap/cap_60)
-Fcb = inter_compuesta8(tabla_8x,tabla_8,a_carril,a_berma)
-v2 = v1* Fu * Fcb
-print(v2)
-Ec_vel = 0
-if p_promedio < 3:
-    Ec_vel = inter_compuesta_plan_ond(v2,tabla_9x,plano,p_camiones,l_sector)
-elif  p_promedio < 6:
-    Ec_vel = inter_compuesta_plan_ond(v2,tabla_9x,ondulado,p_camiones,l_sector)
-elif  p_promedio <9:
-    Ec_vel = inter_compuesta_mon_esc(v2,tabla_9x,montanoso,p_camiones,l_sector)
-else:
-    Ec_vel = inter_compuesta_mon_esc(v2,tabla_9x,escarpado,p_camiones,l_sector)
+# #Capacidad
+# Fpe = inter_compuesta_1(p_promedio, tabla_1x, tabla_1, l_sector)
+# Fd = inter_compuesta_2(d_sentido,tabla_2x,tabla_2,p_no_rebase)
+# Fcb = inter_compuesta3(tabla_3x,tabla_3,a_berma,a_carril)
+# Ec = inter_compuesta4(tabla_4x, tabla_4, p_promedio, p_pesados, l_sector)
+# Fp = (1/(1+(p_pesados/100)*(Ec-1)))
+# Fp = round(Fp,4)
+# cap_60 = round(c_ideal*Fpe*Fd*Fcb*Fp,0)
+# FHP = inter_tabla5(tabla_5,tabla_5x,tabla_51,tabla_51x,cap_60)
+# cap_5 =round(cap_60*FHP,0)
+# #Nivel de servico
+# v1 = inter_compuesta6(tabla_6x, tabla_6, p_promedio, l_sector)
+# Fu = interpolacion(tabla_7x,tabla_7,vol_cap/cap_60)
+# Fcb = inter_compuesta8(tabla_8x,tabla_8,a_carril,a_berma)
+# v2 = v1* Fu * Fcb
+# print(v2)
+# Ec_vel = 0
+# if p_promedio < 3:
+#     Ec_vel = inter_compuesta_plan_ond(v2,tabla_9x,plano,p_camiones,l_sector)
+# elif  p_promedio < 6:
+#     Ec_vel = inter_compuesta_plan_ond(v2,tabla_9x,ondulado,p_camiones,l_sector)
+# elif  p_promedio <9:
+#     Ec_vel = inter_compuesta_mon_esc(v2,tabla_9x,montanoso,p_camiones,l_sector)
+# else:
+#     Ec_vel = inter_compuesta_mon_esc(v2,tabla_9x,escarpado,p_camiones,l_sector)
 
-fp_vel = round(1/(1+((p_camiones/100)*(Ec_vel-1))),3)
-Ft = round(interpolacion(tabla_10x, tabla_10, p_promedio),3)
-vM = v2*fp_vel*Ft
-Vi = int((vM * 100)/90)
+# fp_vel = round(1/(1+((p_camiones/100)*(Ec_vel-1))),3)
+# Ft = round(interpolacion(tabla_10x, tabla_10, p_promedio),3)
+# vM = v2*fp_vel*Ft
+# Vi = int((vM * 100)/90)
 
-lista =[]
-if p_promedio < 3:
-    lista = plano_1
-elif  p_promedio < 6:
-    lista = ondulado_1
-elif  p_promedio <9:
-    lista = montanoso_1
-else:
-    lista = escarpado_1
+# lista =[]
+# if p_promedio < 3:
+#     lista = plano_1
+# elif  p_promedio < 6:
+#     lista = ondulado_1
+# elif  p_promedio <9:
+#     lista = montanoso_1
+# else:
+#     lista = escarpado_1
 
-print(f'Fpe= {Fpe}, Fd= {Fd},  Fcb= {Fcb}, Ec ={Ec} y Fp = {Fp} y Ec_vel = {Ec_vel} y FHP = {FHP}')
-print(f'Composición buses + camiones: {p_pesados} %  ')
-print(f'La capacidad de la vía es: {cap_60} Veh/h')
-print(f'La capacidad de la vía de los cinco minutos es: {cap_5} Veh/h')
-final = index(lista, Vi)
-print(f"ft = {Ft}, vM = {vM} y Vi = {Vi} and v1 = {v1}, Fu={Fu}, Ft = {Ft} v2 = {v2}")
-print(f"El nivel de servicio es {final}")
+# print(f'Fpe= {Fpe}, Fd= {Fd},  Fcb= {Fcb}, Ec ={Ec} y Fp = {Fp} y Ec_vel = {Ec_vel} y FHP = {FHP}')
+# print(f'Composición buses + camiones: {p_pesados} %  ')
+# print(f'La capacidad de la vía es: {cap_60} Veh/h')
+# print(f'La capacidad de la vía de los cinco minutos es: {cap_5} Veh/h')
+# final = index(lista, Vi)
+# print(f"ft = {Ft}, vM = {vM} y Vi = {Vi} and v1 = {v1}, Fu={Fu}, Ft = {Ft} v2 = {v2}")
+# print(f"El nivel de servicio es {final}")
