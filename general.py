@@ -114,13 +114,18 @@ def home():
         Fp_vel=res[13],Ft=res[14],vM=res[15],Vi=res[16],Final=res[17])
         db.session.add(new_movie)
         db.session.commit()
-        return redirect(url_for('data'))
-        
+        return redirect(url_for('resultado'))
     return render_template ('index.html', form=form)
+
+@app.route("/resultado", methods=["GET","POST"])
+def resultado():
+    id = len(db.session.query(Resultado).all())
+    registro = Resultado.query.get(id)
+    return render_template('inner-page.html',datos=registro)
 
 @app.route("/capacidad-NS", methods=["GET","POST"])
 def data():
-    id = len(db.session.query(Resultado).all())
+    id = len(db.session.query(Resultado).all()) + 1
     registro = Resultado.query.get(id)
     return render_template('data.html',datos=registro)
 

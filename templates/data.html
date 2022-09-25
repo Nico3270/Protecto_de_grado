@@ -14,11 +14,15 @@
   <body>
     {%import "bootstrap/wtf.html" as wtf%}
     <h1>Hola Estoy funcionando</h1>
+    <div class="row"></div>
+    <div class="col-lg-4"></div>
     <div class="container-md text-center">
         <h2>La capacidad de la via es {{datos.cap_60}}</h2>
         <h2>El nivel de servicio es {{datos.Final}}</h2>
         <br>
         <a class="btn btn-warning btn-lg" href="{{url_for('home')}}">Regresar al inicio</a>
+      </div>
     </div>
+  </div>
   </body>
 </html>
