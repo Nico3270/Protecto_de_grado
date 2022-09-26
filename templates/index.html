@@ -50,7 +50,7 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           <li><a class="nav-link scrollto active" href="{{url_for('home')}}">Inicio</a></li>
-          <li><a class="nav-link scrollto" href="#about">Información</a></li>
+          <li><a class="nav-link scrollto" href="{{url_for('blog')}}">Información</a></li>
           <li><a class="nav-link scrollto " href="#portfolio">Portfolio</a></li>
           <li><a href="{{url_for('resultado')}}">Blog</a></li>
           <li><a class="nav-link scrollto" href="#contact">Contacto</a></li>
@@ -69,7 +69,7 @@
       <div class="row">
         <div class="col-xl-6">
           <h1>Cálculo de Capacidad y Niveles de Servicio</h1>
-          <h2>Desarrollo mediante los manuales de Capacidad y Niveles de Servicio para Colombi 2020</h2>
+          <h2>Desarrollo mediante los manuales de Capacidad y Niveles de Servicio para Colombia 2020</h2>
           <a href="#about" class="btn-get-started scrollto">Calcular</a>
         </div>
       </div>
@@ -87,7 +87,7 @@
             <b>Insertar valores</b>
           </div>
           <div class="card-body">
-            {{wtf.quick_form(form)}}
+            {{ wtf.quick_form(form, novalidate=True, button_map={"submit": "danger"}) }}
           </div>
         </div>
       </div>
@@ -357,7 +357,7 @@
                 <p>App</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-1.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -371,7 +371,7 @@
                 <p>Web</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-2.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -385,7 +385,7 @@
                 <p>App</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-3.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 2"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -399,7 +399,7 @@
                 <p>Card</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-4.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 2"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -413,7 +413,7 @@
                 <p>Web</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-5.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 2"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -427,7 +427,7 @@
                 <p>App</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-6.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 3"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -441,7 +441,7 @@
                 <p>Card</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-7.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 1"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -455,7 +455,7 @@
                 <p>Card</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-8.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Card 3"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>
@@ -469,7 +469,7 @@
                 <p>Web</p>
                 <div class="portfolio-links">
                   <a href="../static/assets/img/portfolio/portfolio-9.jpg" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="bx bx-plus"></i></a>
-                  <a href="{{url_for('portfolio-details.html)}}" title="More Details"><i class="bx bx-link"></i></a>
+                  <a href="#" title="More Details"><i class="bx bx-link"></i></a>
                 </div>
               </div>
             </div>

@@ -129,6 +129,10 @@ def data():
     registro = Resultado.query.get(id)
     return render_template('data.html',datos=registro)
 
+@app.route("/blog", methods=["GET","POST"])
+def blog():
+    return render_template ('blog_final.html')
+
 
 if __name__ == "__main__":
     app.run(debug=True)
