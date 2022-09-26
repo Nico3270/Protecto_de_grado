@@ -1,11 +1,11 @@
-from cmath import inf
-import re
 from flask import Flask, render_template, redirect, url_for, request
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, FloatField, IntegerField
-from wtforms.validators import DataRequired, NumberRange
+from wtforms.validators import DataRequired, NumberRange,  URL
+from flask_ckeditor import CKEditor, CKEditorField
+from datetime import date
 import requests
 import capacidad_NS as cap
 
@@ -13,11 +13,37 @@ import capacidad_NS as cap
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
 Bootstrap(app)
+ckeditor = CKEditor(app)
 
 #Creando base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///capacidad.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+##CONNECT TO db_blog
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db_blog = SQLAlchemy(app)
+
+##CONFIGURE TABLE
+class BlogPost(db_blog.Model):
+    id = db_blog.Column(db_blog.Integer, primary_key=True)
+    title = db_blog.Column(db_blog.String(250), unique=True, nullable=False)
+    subtitle = db_blog.Column(db_blog.String(250), nullable=False)
+    date = db_blog.Column(db_blog.String(250), nullable=False)
+    body = db_blog.Column(db_blog.Text, nullable=False)
+    author = db_blog.Column(db_blog.String(250), nullable=False)
+    img_url = db_blog.Column(db_blog.String(250), nullable=False)
+
+
+##WTForm
+class CreatePostForm(FlaskForm):
+    title = StringField("Blog Post Title", validators=[DataRequired()])
+    subtitle = StringField("Subtitle", validators=[DataRequired()])
+    author = StringField("Your Name", validators=[DataRequired()])
+    img_url = StringField("Blog Image URL", validators=[DataRequired(), URL()])
+    body = CKEditorField("Blog Content", validators=[DataRequired()])
+    submit = SubmitField("Submit Post")
 
 class Capacidad(FlaskForm):
     a_carril = FloatField(label="Ancho de carril (metros)",validators = [DataRequired(),NumberRange(min=0, max=10)])
@@ -131,8 +157,55 @@ def data():
 
 @app.route("/blog", methods=["GET","POST"])
 def blog():
-    return render_template ('blog_final.html')
+    posts = db_blog.session.query(BlogPost).all()
+    return render_template ('blog_final.html',  all_posts=posts)
 
+@app.route("/post/<int:index>")
+def show_post(index):
+    requested_post = None
+    posts = db_blog.session.query(BlogPost).all()
+    for blog_post in posts:
+        if blog_post.id == index:
+            requested_post = blog_post
+    return render_template("post.html", post = requested_post)
 
+@app.route("/new-post", methods=["GET","POST"])
+def New_post():
+    form = CreatePostForm()
+    if form.validate_on_submit():
+        new_post = BlogPost(
+            title=form.title.data,
+            subtitle=form.subtitle.data,
+            body=form.body.data,
+            img_url=form.img_url.data,
+            author=form.author.data,
+            date=date.today().strftime("%B %d, %Y")
+        )
+        db_blog.session.add(new_post)
+        db_blog.session.commit()
+        return redirect(url_for("blog"))
+    return render_template("make-post.html", form=form, title_post="Nuevo Post")
+
+@app.route("/edit-post/<post_id>", methods=["GET","POST"])
+def edit(post_id):
+    form = CreatePostForm()
+    if form.validate_on_submit():
+        edit_post = BlogPost.query.get(post_id)
+        edit_post.title = form.title.data
+        edit_post.subtitle = form.subtitle.data
+        edit_post.body = form.body.data
+        edit_post.img_url = form.img_url.data
+        edit_post.author =form.author.data
+        edit_post.date = date.today().strftime("%B %d, %Y")
+        db_blog.session.commit()
+        return redirect(url_for("blog"))
+    return render_template("make-post.html", form=form, title_post="Editar Post")
+
+@app.route("/delete/<post_id>", methods =["GET","POST"])
+def delete(post_id):
+    post_to_delete = BlogPost.query.get(post_id)
+    db_blog.session.delete(post_to_delete)
+    db_blog.session.commit()
+    return render_template("blog_final.html")
 if __name__ == "__main__":
     app.run(debug=True)
