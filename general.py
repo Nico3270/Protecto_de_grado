@@ -48,7 +48,7 @@ class CreatePostForm(FlaskForm):
 class Capacidad(FlaskForm):
     a_carril = FloatField(label="Ancho de carril (metros)",validators = [DataRequired(),NumberRange(min=0, max=10)])
     a_berma = FloatField(label="Ancho de berma",  validators = [DataRequired(),NumberRange(min=0, max=3)])
-    p_promedio = FloatField(label="Pendiente promedio ", validators = [DataRequired(),NumberRange(min=0, max=50)])
+    p_promedio = FloatField(label="Pendiente promedio ", validators = [DataRequired(),NumberRange(min=0, max=12)])
     l_sector = FloatField(label="Longitud del sector",validators = [DataRequired(),NumberRange(min=0, max=50)])
     d_sentido= IntegerField(label="Distribución por sentido", validators = [DataRequired(),NumberRange(min=0, max=100)])
     p_no_rebase = IntegerField(label="Porcentaje de zonas de no rebase", validators = [DataRequired(),NumberRange(min=0, max=100)])
@@ -135,10 +135,10 @@ def home():
         res = Capacidad_Ns(form.a_carril.data,form.a_berma.data,form.p_promedio.data,form.l_sector.data,
         form.d_sentido.data,form.p_no_rebase.data,form.p_automoviles.data,form.p_buses.data,
         form.p_camiones.data,form.vol_cap.data)
-        new_movie = Resultado(Fpe=res[0],Fd=res[1],Fcb=res[2],Ec=res[3],Fp=res[4],cap_60=res[5],
+        new_object = Resultado(Fpe=res[0],Fd=res[1],Fcb=res[2],Ec=res[3],Fp=res[4],cap_60=res[5],
         cap_5=res[6], FHP=res[7],v1=res[8],Fu=res[9],Fcb1=res[10],v2=res[11],Ec_vel=res[12],
         Fp_vel=res[13],Ft=res[14],vM=res[15],Vi=res[16],Final=res[17])
-        db.session.add(new_movie)
+        db.session.add(new_object)
         db.session.commit()
         return redirect(url_for('resultado'))
     return render_template ('index.html', form=form)
@@ -147,7 +147,18 @@ def home():
 def resultado():
     id = len(db.session.query(Resultado).all())
     registro = Resultado.query.get(id)
-    return render_template('inner-page.html',datos=registro)
+    return render_template('resultados.html',datos=registro)
+
+@app.route("/registro/<int:index>", methods=["GET","POST"])
+def registro(index):
+    id = len(db.session.query(Resultado).all())
+    registro = Resultado.query.get(id)
+    return render_template('resultados.html',datos=registro)
+
+@app.route("/resultados",methods=["GET","POST"])
+def resultados():
+    all_records = db.session.query(Resultado).all()
+    return render_template('data.html', datos=all_records)
 
 @app.route("/capacidad-NS", methods=["GET","POST"])
 def data():
